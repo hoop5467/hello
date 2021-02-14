@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/exelInput" method="post" enctype="multipart/form-data" id="frm">
+<input type="file" name="exel" onchange="sm()" value="엑셀파일넣기">
+</form>
+<script>
+    function sm() {
+        document.getElementById("frm").submit();
+    }
+    
+</script>
+</body>
+</html>
