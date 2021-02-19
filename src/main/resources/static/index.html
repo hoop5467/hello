@@ -8,11 +8,14 @@
 <form action="/exelInput" method="post" enctype="multipart/form-data" id="frm">
 <input type="file" name="exel" onchange="sm()" value="엑셀파일넣기">
 </form>
+<button type="button" onclick="ext()">종료</button>
 <script>
     function sm() {
         document.getElementById("frm").submit();
     }
-    
+    function ext(){
+        location.href= "/exit";
+    }
 </script>
 </body>
 </html>

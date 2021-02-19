@@ -3,7 +3,6 @@ package com.example.controller;
 
 import ch.qos.logback.classic.Logger;
 import com.example.HelloApplication;
-import com.sun.tools.javac.Main;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -13,16 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import javax.xml.transform.TransformerException;
-
-import javax.xml.xpath.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -32,17 +24,22 @@ import java.util.ArrayList;
 
 @Controller
 public class controller {
-    private static Logger logger = (Logger) LoggerFactory.getLogger(HelloApplication.class);
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(HelloApplication.class);
     @PostMapping("/exelInput")
-    public String home(MultipartHttpServletRequest request) throws IOException, ParserConfigurationException, SAXException, InterruptedException, XPathExpressionException, TransformerException {
+    public String home(MultipartHttpServletRequest request) throws IOException, InterruptedException{
         ArrayList<String> comNamelist = excel(request,0);
         ArrayList<String> list = excel(request, 1);
         ArrayList<String> result = req(list);
         mkExel(comNamelist,list,result);
+
         return "home";
     }
+    @RequestMapping("/exit")
+    public void Exit() throws InterruptedException {
 
-    public ArrayList<String> req(ArrayList<String> list) throws IOException, SAXException, ParserConfigurationException, InterruptedException, XPathExpressionException, TransformerException {
+        System.exit(0);
+    }
+    public ArrayList<String> req(ArrayList<String> list) throws IOException,InterruptedException{
         ArrayList<String> result = new ArrayList<>();
 
         String postUrl = "https://teht.hometax.go.kr/wqAction.do?actionId=ATTABZAA001R08&screenId=UTEABAAA13&popupYn=false&realScreenId=";
@@ -146,14 +143,12 @@ public class controller {
         if(!path.exists()){
             path.mkdirs();
         }
-        String filename = "companylist"+System.currentTimeMillis();
+        String filename = "companylist "+System.currentTimeMillis();
         File file = new File("C:\\nunababo\\"+filename+".xlsx");
         FileOutputStream fos = new FileOutputStream(file);
         workbook.write(fos);
         if(workbook!=null) workbook.close();
         if(fos!=null) fos.close();
-
-
 
 
 
